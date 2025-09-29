@@ -4,7 +4,7 @@
 All tasks in one file (script.js)
 =======================================
 */
-
+document.addEventListener("DOMContentLoaded", () => {
 /*  
 =======================================
 TODO1: Welcome Board
@@ -122,3 +122,40 @@ data.main.temp      → temperature (°C)
 data.main.humidity  → humidity (%)
 data.wind.speed     → wind speed (m/s)
 */
+const t4Btn = document.getElementById("t4-loadWx");
+  const t4Temp = document.getElementById("t4-temp");
+  const t4Hum  = document.getElementById("t4-hum");
+  const t4Wind = document.getElementById("t4-wind");
+  const OPENWEATHER_API_KEY = "YOUR_API_KEY";
+
+  if (t4Btn && t4Temp && t4Hum && t4Wind) {
+    t4Btn.addEventListener("click", async () => {
+      t4Temp.textContent = "...";
+      t4Hum.textContent = "...";
+      t4Wind.textContent = "...";
+      try {
+        if (!OPENWEATHER_API_KEY || OPENWEATHER_API_KEY === "YOUR_API_KEY") {
+          throw new Error("Missing OpenWeather API key");
+        }
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=Dammam&appid=${OPENWEATHER_API_KEY}&units=metric`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+
+        const temp = data?.main?.temp;
+        const hum  = data?.main?.humidity;
+        const wind = data?.wind?.speed;
+
+        t4Temp.textContent = (typeof temp === "number") ? `${temp.toFixed(1)} °C` : "—";
+        t4Hum.textContent  = (typeof hum === "number")  ? `${hum}%` : "—";
+        t4Wind.textContent = (typeof wind === "number") ? `${wind} m/s` : "—";
+      } catch (err) {
+        t4Temp.textContent = "N/A";
+        t4Hum.textContent  = "N/A";
+        t4Wind.textContent = "N/A";
+        console.error(err);
+        alert("Failed to load Dammam weather. Please check your API key or try again.");
+      }
+    });
+  }
+});
