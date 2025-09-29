@@ -19,7 +19,8 @@ inside the <p> element with id="t1-msg".
 💡 Hint:
 document.getElementById("t1-msg").innerHTML = "Hello, World!";
 */
- 
+  const t1Msg = document.getElementById("t1-msg");
+  if (t1Msg) t1Msg.textContent = "Hello, World!";
 
 /*  
 =======================================
