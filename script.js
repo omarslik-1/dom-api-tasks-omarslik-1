@@ -41,7 +41,14 @@ button.addEventListener("click", function () {
     // change text here
 });
 */
- 
+  const t2Btn = document.getElementById("t2-btn");
+  const t2Status = document.getElementById("t2-status");
+
+  if (t2Btn && t2Status) {
+    t2Btn.addEventListener("click", () => {
+      t2Status.textContent = "You clicked the button!";
+    });
+  }
 
 /*  
 =======================================
@@ -70,7 +77,27 @@ data.content   // the quote text
 data.author    // the author
 */
  
+const t3Btn = document.getElementById("t3-loadQuote");
+  const t3Quote = document.getElementById("t3-quote");
+  const t3Author = document.getElementById("t3-author");
 
+  if (t3Btn && t3Quote && t3Author) {
+    t3Btn.addEventListener("click", async () => {
+      t3Quote.textContent = "Loading quote...";
+      t3Author.textContent = "";
+      try {
+        const res = await fetch("https://dummyjson.com/quotes/random");
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        t3Quote.textContent = data.content ?? "No quote text.";
+        t3Author.textContent = data.author ? `— ${data.author}` : "— Unknown";
+      } catch (err) {
+        t3Quote.textContent = "Failed to load quote. Try again.";
+        t3Author.textContent = "";
+        console.error(err);
+      }
+    });
+  }
 /*  
 =======================================
 TODO4: Dammam Weather Now
