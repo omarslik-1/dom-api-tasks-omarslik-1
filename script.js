@@ -126,8 +126,12 @@ const t4Btn = document.getElementById("t4-loadWx");
   const t4Temp = document.getElementById("t4-temp");
   const t4Hum  = document.getElementById("t4-hum");
   const t4Wind = document.getElementById("t4-wind");
-  const OPENWEATHER_API_KEY = "YOUR_API_KEY";
-
+const t4KeyInput = document.getElementById("t4-key");
+const OPENWEATHER_API_KEY = t4KeyInput?.value?.trim();
+if (!OPENWEATHER_API_KEY) {
+  t4Err.textContent = "Please enter your API key first.";
+  return;
+}
   if (t4Btn && t4Temp && t4Hum && t4Wind) {
     t4Btn.addEventListener("click", async () => {
       t4Temp.textContent = "...";
